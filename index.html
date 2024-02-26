@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>api_app</title>
+    <!-- 네이버 지도앱 연결, 인증키 -->
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wkh9wf1rg5"
+    ></script>
+  </head>
+  <body>
+    <h2>Github Hosting Test 수정 사항 반영</h2>
+    <div class="loading">
+      <img src="loading.gif" alt="" />
+    </div>
+
+    <div id="map" style="width: 100%; height: 800px"></div>
+
+    <script>
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        console.log(lat, lon);
+
+        var map = new naver.maps.Map('map', {
+          center: new naver.maps.LatLng(lat, lon), // 잠실 롯데월드를 중심으로 하는 지도
+          zoom: 15,
+        });
+
+        var marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(lat, lon),
+          map: map,
+        });
+
+        // 위치 데이터가 로드되면 .loading 요소를 숨깁니다.
+        var loadingElement = document.querySelector('.loading');
+        if (loadingElement) {
+          loadingElement.style.display = 'none';
+        }
+      });
+    </script>
+    <script src="js/request.js"></script>
+    <script>
+      fetch('/api_parking/php/data.php')
+        .then((d) => d.json)
+        .then((r) => {
+          console.log(r);
+        });
+    </script>
+  </body>
+</html>
